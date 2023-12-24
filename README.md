@@ -19,27 +19,27 @@ package main
 import (
 	"time"
 
-	eblot "github.com/kimbbakar/ebolt"
+	ebolt "github.com/kimbbakar/ebolt"
 )
 
 func main() {
 
 	// Init ebolt befor every restart to sweep expired key.
 	// Passing bucket name will create bucket
-	eblot.InitEbolt(nil)
+	ebolt.InitEbolt(nil)
 
 	// key-value without any expiry
-	eblot.DB.Put("my-key", "my-value", nil)
+	ebolt.DB.Put("my-key", "my-value", nil)
 
 	// key-value with any expiry
 	exp := time.Minute * 10
-	eblot.DB.Put("my-key", "my-value", &exp)
+	ebolt.DB.Put("my-key", "my-value", &exp)
 
 	// Delete key
-	eblot.DB.Delete("my-key")
+	ebolt.DB.Delete("my-key")
 
 	// Get Key
-	eblot.DB.Get("my-key")
+	ebolt.DB.Get("my-key")
 }
 ```
 
