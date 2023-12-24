@@ -1,4 +1,4 @@
-module github.com/Kimbbakar/ebolt
+module github.com/kimbbakar/ebolt
 
 go 1.20
 
