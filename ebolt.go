@@ -1,4 +1,4 @@
-package eblot
+package ebolt
 
 import (
 	"encoding/json"
