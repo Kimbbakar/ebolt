@@ -14,6 +14,8 @@ var (
 	boltFile      = "bbolt.db"
 )
 
+var DB = &EBoltClient{}
+
 func getBoltClient(readOnly bool) *bolt.DB {
 	option := &bolt.Options{
 		Timeout:  time.Minute,
@@ -36,16 +38,14 @@ type EBoltClient struct {
 }
 
 func InitEbolt(bucketName *string) {
-	c := EBoltClient{bucketName}
+	c := DB
+	if bucketName == nil {
+		c = &EBoltClient{bucketName}
+	}
 	c.Init()
 }
 
-func GetEbolt() *EBoltClient {
-	c := EBoltClient{}
-	return &c
-}
-
-func GetEboltForBucket(Name string) *EBoltClient {
+func GetEbolt(Name string) *EBoltClient {
 	c := EBoltClient{&Name}
 	return &c
 }

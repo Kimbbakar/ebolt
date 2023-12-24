@@ -29,17 +29,17 @@ func main() {
 	eblot.InitEbolt(nil)
 
 	// key-value without any expiry
-	eblot.GetEbolt().Put("my-key", "my-value", nil)
+	eblot.DB.Put("my-key", "my-value", nil)
 
 	// key-value with any expiry
 	exp := time.Minute * 10
-	eblot.GetEbolt().Put("my-key", "my-value", &exp)
+	eblot.DB.Put("my-key", "my-value", &exp)
 
 	// Delete key
-	eblot.GetEbolt().Delete("my-key")
+	eblot.DB.Delete("my-key")
 
 	// Get Key
-	eblot.GetEbolt().Get("my-key")
+	eblot.DB.Get("my-key")
 }
 ```
 
