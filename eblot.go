@@ -40,29 +40,14 @@ func InitEbolt(bucketName *string) {
 	c.Init()
 }
 
-func GetEbolt() EBoltClient {
+func GetEbolt() *EBoltClient {
 	c := EBoltClient{}
-	return c
+	return &c
 }
 
-func GetEboltForBucket(Name string) EBoltClient {
+func GetEboltForBucket(Name string) *EBoltClient {
 	c := EBoltClient{&Name}
-	return c
-}
-
-type cachePayload struct {
-	Value     interface{}
-	CreatedAt time.Time
-	Exp       *time.Time
-}
-
-func (p cachePayload) isExpired() bool {
-	if p.Exp != nil {
-		now := time.Now()
-		return now.After(*p.Exp)
-	}
-
-	return false
+	return &c
 }
 
 func (c *EBoltClient) getBucketName() []byte {
