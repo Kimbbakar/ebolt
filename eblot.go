@@ -35,9 +35,18 @@ type EBoltClient struct {
 	bucketName *string
 }
 
-func GetEbolt(bucketName *string) EBoltClient {
+func InitEbolt(bucketName *string) {
 	c := EBoltClient{bucketName}
 	c.Init()
+}
+
+func GetEbolt() EBoltClient {
+	c := EBoltClient{}
+	return c
+}
+
+func GetEboltForBucket(Name string) EBoltClient {
+	c := EBoltClient{&Name}
 	return c
 }
 
