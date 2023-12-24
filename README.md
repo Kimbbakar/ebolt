@@ -1,6 +1,6 @@
 # Ebolt
 
-`ebolt is a lightweight Go package designed as a versatile wrapper for the bbolt key-value store. It offers a simplified interface with generic PUT, GET, and DELETE methods, along with the added convenience of expiration for key-value pairs.
+`Ebolt` is a lightweight Go package designed as a versatile wrapper for the bbolt key-value store. It offers a simplified interface with generic PUT, GET, and DELETE methods, along with the added convenience of expiration for key-value pairs.
 
 ## Installation
 
