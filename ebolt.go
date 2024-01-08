@@ -39,7 +39,7 @@ type EBoltClient struct {
 
 func InitEbolt(bucketName *string) {
 	c := DB
-	if bucketName == nil {
+	if bucketName != nil {
 		c = &EBoltClient{bucketName}
 	}
 	c.Init()
@@ -92,7 +92,7 @@ func (c *EBoltClient) Sweep() {
 				if err != nil || payload.isExpired() {
 					shouldDelete = true
 				} else if payload.Exp != nil {
-					go c.Expire(string(key), payload.Exp.Sub(time.Now()))
+					go c.expire(string(key), payload.Exp.Sub(time.Now()))
 				}
 			}
 
@@ -147,7 +147,7 @@ func (c *EBoltClient) Put(key string, value interface{}, ttl *time.Duration) err
 		if ttl != nil {
 			exp := time.Now().Add(*ttl)
 			payload.Exp = &exp
-			go c.Expire(key, *ttl)
+			go c.expire(key, *ttl)
 		}
 
 		byteValue, _ := json.Marshal(payload)
@@ -160,7 +160,7 @@ func (c *EBoltClient) Put(key string, value interface{}, ttl *time.Duration) err
 	return err
 }
 
-func (c *EBoltClient) Expire(key string, ttl time.Duration) error {
+func (c *EBoltClient) expire(key string, ttl time.Duration) error {
 	<-time.After(ttl)
 	return c.Delete(key)
 }

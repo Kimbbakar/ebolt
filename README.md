@@ -1,4 +1,6 @@
 # Ebolt
+[![Go Report Card](https://goreportcard.com/badge/github.com/Kimbbakar/ebolt)](https://goreportcard.com/report/github.com/Kimbbakar/ebolt)
+[![GoDoc](https://pkg.go.dev/badge/github.com/kimbbakar/ebolt?status.svg)](https://pkg.go.dev/github.com/kimbbakar/ebolt?tab=doc)
 
 `Ebolt` is a lightweight Go package designed as a versatile wrapper for the bbolt key-value store. It offers a simplified interface with generic PUT, GET, and DELETE methods, along with the added convenience of expiration for key-value pairs.
 
