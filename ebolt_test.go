@@ -1,7 +1,6 @@
 package ebolt_test
 
 import (
-	"sync"
 	"testing"
 	"time"
 
@@ -9,9 +8,6 @@ import (
 
 	"github.com/kimbbakar/ebolt"
 )
-
-var wg sync.WaitGroup
-var count [10000]int
 
 func TestEBolt(t *testing.T) {
 	bucketName := "test_bucket"
@@ -58,6 +54,27 @@ func TestEBolt(t *testing.T) {
 			assert.Equal(t, "test_value", value)
 
 			time.Sleep(ttl)
+			value = c.Get("test_key")
+			assert.Equal(t, value, nil)
+		})
+
+		t.Run("Overwrite value", func(t *testing.T) {
+			ttl1 := time.Second * 5
+			c := ebolt.GetEbolt(bucketName)
+
+			c.Put("test_key", "test_value", &ttl1)
+			value := c.Get("test_key")
+			assert.NotNil(t, value)
+			assert.Equal(t, "test_value", value)
+
+			ttl2 := time.Second * 8
+			c.Put("test_key", "new_value", &ttl2)
+			time.Sleep(ttl1)
+
+			value = c.Get("test_key")
+			assert.Equal(t, value, "new_value")
+
+			time.Sleep(ttl2)
 			value = c.Get("test_key")
 			assert.Equal(t, value, nil)
 		})

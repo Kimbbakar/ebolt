@@ -180,6 +180,17 @@ func (c *EBoltClient) Delete(key string) error {
 
 	err := db.Update(func(tx *bolt.Tx) error {
 		b := tx.Bucket(c.getBucketName())
+		value := b.Get([]byte(key))
+		if value == nil {
+			return nil
+		}
+
+		payload := cachePayload{}
+		json.Unmarshal(value, &payload)
+		if !payload.isExpired() {
+			return nil
+		}
+
 		return b.Delete([]byte(key))
 	})
 	if err != nil {
