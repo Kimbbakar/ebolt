@@ -162,7 +162,7 @@ func (c *EBoltClient) Put(key string, value interface{}, ttl *time.Duration) err
 
 func (c *EBoltClient) expire(key string, ttl time.Duration) error {
 	<-time.After(ttl)
-	return c.Delete(key)
+	return c.delete(key, true)
 }
 
 func (c *EBoltClient) DeleteMany(keys []string) error {
@@ -175,6 +175,10 @@ func (c *EBoltClient) DeleteMany(keys []string) error {
 }
 
 func (c *EBoltClient) Delete(key string) error {
+	return c.delete(key, false)
+}
+
+func (c *EBoltClient) delete(key string, onlyNonExpired bool) error {
 	db := getBoltClient(false)
 	defer closeConnection(db)
 
@@ -185,10 +189,12 @@ func (c *EBoltClient) Delete(key string) error {
 			return nil
 		}
 
-		payload := cachePayload{}
-		json.Unmarshal(value, &payload)
-		if !payload.isExpired() {
-			return nil
+		if onlyNonExpired {
+			payload := cachePayload{}
+			json.Unmarshal(value, &payload)
+			if !payload.isExpired() {
+				return nil
+			}
 		}
 
 		return b.Delete([]byte(key))

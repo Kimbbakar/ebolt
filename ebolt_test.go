@@ -79,4 +79,20 @@ func TestEBolt(t *testing.T) {
 			assert.Equal(t, value, nil)
 		})
 	})
+
+	t.Run("Delete", func(t *testing.T) {
+		t.Run("String Value", func(t *testing.T) {
+			c := ebolt.GetEbolt(bucketName)
+
+			ttl := time.Minute * 10
+			c.Put("test_key", "test_value", &ttl)
+			value := c.Get("test_key")
+			assert.NotNil(t, value)
+			assert.Equal(t, "test_value", value)
+
+			c.Delete("test_key")
+			value = c.Get("test_key")
+			assert.Nil(t, value)
+		})
+	})
 }
