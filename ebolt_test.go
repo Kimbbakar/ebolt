@@ -81,7 +81,18 @@ func TestEBolt(t *testing.T) {
 	})
 
 	t.Run("Delete", func(t *testing.T) {
-		t.Run("String Value", func(t *testing.T) {
+		t.Run("Key with non-expiry", func(t *testing.T) {
+			c := ebolt.GetEbolt(bucketName)
+
+			c.Put("test_key", "test_value", nil)
+			value := c.Get("test_key")
+			assert.NotNil(t, value)
+			c.Delete("test_key")
+			value = c.Get("test_key")
+			assert.Nil(t, value)
+		})
+
+		t.Run("Key with expiry", func(t *testing.T) {
 			c := ebolt.GetEbolt(bucketName)
 
 			ttl := time.Minute * 10
